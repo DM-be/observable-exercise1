@@ -37,9 +37,10 @@ export class CounterComponent implements OnInit {
   private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
     const observer: Observer = {
-      next: (value) => this.count++
+      next: (value?: any) => this.count++
     };
     const observable = new Observable(subscriber => {
+      this.incrementButton.onclick = () => {};
       // is there anything we can call on the subscriber?
     }).subscribe(observer)
 
