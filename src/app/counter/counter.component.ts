@@ -36,14 +36,7 @@ export class CounterComponent implements OnInit {
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
   private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
-    const observer: Observer = {
-      next: () => this.count++
-    };
-    const observable = new Observable(subscriber => {
-      this.incrementButton.onclick = () => subscriber.next()
-    }).subscribe(observer)
 
-    
   }
 
   private observeDecrementButtonClick(): void {
