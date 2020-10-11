@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 
 
 interface Observer {
-  next: (value: any) => void,
-  error?: (error) => void
+  next?: (value?: any) => void,
+  error?: (error: any) => void
   complete?: () => void
 }
 @Component({
@@ -36,6 +36,7 @@ export class CounterComponent implements OnInit {
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
   private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
+  //  const observer: Observer = {};
 
   }
 
