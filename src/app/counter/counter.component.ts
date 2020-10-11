@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy,  OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 
 interface Observer {
-  next: (value: any) => void,
-  error?: (error) => void
+  next: (value?: any) => void,
+  error?: (error: any) => void
   complete?: () => void
 }
 @Component({
@@ -12,19 +12,24 @@ interface Observer {
   templateUrl: './counter.component.html',
   styleUrls: ['./counter.component.css']
 })
-export class CounterComponent implements OnInit {
+export class CounterComponent implements OnInit, OnDestroy {
 
   public count: number = 0;
   private incrementButton: HTMLButtonElement;
   private decrementButton: HTMLButtonElement;
+  private incrementButtonClickSubscription: Subscription;
+  private decrementButtonClickSubscription: Subscription;
 
   constructor() { }
+  ngOnDestroy(): void {
+    this.incrementButtonClickSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.incrementButton = document.querySelector('#incrementBtn');
     this.decrementButton = document.querySelector('#decrementBtn');
-    this.observeIncrementButtonClick();
-    this.observeDecrementButtonClick();
+    this.incrementButtonClickSubscription = this.observeIncrementButtonClick();
+    this.decrementButtonClickSubscription = this.observeDecrementButtonClick();
     //this.observeDecrementButtonClickWithoutGlobal();
     //this.observeIncrementButtonClickWithoutGlobal();
     
@@ -38,7 +43,7 @@ export class CounterComponent implements OnInit {
   // use intellisense to check which method we could use on incrementButton
   // subscriber and observer are used interchangeable in the documentation
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
-  private observeIncrementButtonClick(): void {
+  private observeIncrementButtonClick(): Subscription {
     //const observable = new Observable(observer => {...})
     const observer: Observer = {
       next: () => this.count++
@@ -46,20 +51,21 @@ export class CounterComponent implements OnInit {
     const observable = new Observable(subscriber => {
       this.incrementButton.onclick = () => subscriber.next();
     });
-    observable.subscribe(observer);
-
+    const subscription = observable.subscribe(observer);
+    return subscription;
 
 
   }
 
-  private observeDecrementButtonClick(): void {
+  private observeDecrementButtonClick(): Subscription {
      const observer: Observer = {
       next: () => this.count--
     };
     const observable = new Observable(subscriber => {
       this.decrementButton.onclick = () => subscriber.next();
     });
-    observable.subscribe(observer);
+    const subscription = observable.subscribe(observer);
+    return subscription;
 
   }
 
