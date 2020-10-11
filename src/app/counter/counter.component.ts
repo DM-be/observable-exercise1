@@ -23,10 +23,10 @@ export class CounterComponent implements OnInit {
   ngOnInit() {
     this.incrementButton = document.querySelector('#incrementBtn');
     this.decrementButton = document.querySelector('#decrementBtn');
-  //  this.observeIncrementButtonClick();
-  //  this.observeDecrementButtonClick();
-    this.observeDecrementButtonClickWithoutGlobal();
-    this.observeIncrementButtonClickWithoutGlobal();
+    this.observeIncrementButtonClick();
+    this.observeDecrementButtonClick();
+    //this.observeDecrementButtonClickWithoutGlobal();
+//this.observeIncrementButtonClickWithoutGlobal();
     
 
   }
@@ -74,6 +74,7 @@ export class CounterComponent implements OnInit {
         let value = parseInt(span.innerHTML);
         value++;
         span.innerHTML = value.toString();
+          console.log(this.incrementButton)
       }
     };
     const observable = new Observable(subscriber => {
@@ -90,6 +91,7 @@ export class CounterComponent implements OnInit {
         let value = parseInt(span.innerHTML);
         value--;
         span.innerHTML = value.toString();
+        console.log(this.incrementButton)
       }
     };
     const observable = new Observable(subscriber => {
