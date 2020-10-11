@@ -39,12 +39,11 @@ export class CounterComponent implements OnInit {
   }
 
   decrementCounter() {
-    
   }
 
 
   // could you implement the same thing, without using a global variable?
- 
+  // maybe with some kind of operator... 
   
 
 }
