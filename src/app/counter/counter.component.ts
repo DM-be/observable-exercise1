@@ -26,7 +26,7 @@ export class CounterComponent implements OnInit {
     this.observeIncrementButtonClick();
     this.observeDecrementButtonClick();
     //this.observeDecrementButtonClickWithoutGlobal();
-//this.observeIncrementButtonClickWithoutGlobal();
+    //this.observeIncrementButtonClickWithoutGlobal();
     
 
   }
