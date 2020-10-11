@@ -23,7 +23,7 @@ export class CounterComponent implements OnInit {
   ngOnInit() {
     this.incrementButton = document.querySelector('#incrementBtn');
     this.decrementButton = document.querySelector('#decrementBtn');
-    this.incrementCounter();
+    this.observeIncrementButtonClick();
 
   }
 
@@ -34,10 +34,10 @@ export class CounterComponent implements OnInit {
   // use intellisense to check which method we could use on incrementButton
   // subscriber and observer are used interchangeable in the documentation
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
-  incrementCounter() {
+  private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
     const observer: Observer = {
-      next: (value) => this.count++
+      next: () => this.count++
     };
     const observable = new Observable(subscriber => {
       this.incrementButton.onclick = () => subscriber.next()
@@ -46,12 +46,13 @@ export class CounterComponent implements OnInit {
     
   }
 
-  decrementCounter() {
+  private observeDecrementButtonClick(): void {
   }
 
 
-  // could you implement the same thing, without using a global variable?
-  // maybe with some kind of operator... 
+  // extra challenge 
+  //could you implement the same thing, without using a global variable?
+
   
 
 }
