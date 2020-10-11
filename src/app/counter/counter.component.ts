@@ -44,6 +44,13 @@ export class CounterComponent implements OnInit {
   }
 
 
+
+
+  
+
+
+
+
   // extra challenge 
   //could you implement the same thing, without using a global variable?
 
