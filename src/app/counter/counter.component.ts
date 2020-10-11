@@ -74,7 +74,6 @@ export class CounterComponent implements OnInit {
         let value = parseInt(span.innerHTML);
         value++;
         span.innerHTML = value.toString();
-          console.log(this.incrementButton)
       }
     };
     const observable = new Observable(subscriber => {
@@ -91,7 +90,6 @@ export class CounterComponent implements OnInit {
         let value = parseInt(span.innerHTML);
         value--;
         span.innerHTML = value.toString();
-        console.log(this.incrementButton)
       }
     };
     const observable = new Observable(subscriber => {
