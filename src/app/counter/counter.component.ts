@@ -3,11 +3,10 @@ import { Observable } from 'rxjs';
 
 
 interface Observer {
-  next?: (value: any) => void;
-  complete?: () => void;
-  error?: (error: any) => void;
+  next: (value: any) => void,
+  error?: (error) => void
+  complete?: () => void
 }
-
 @Component({
   selector: 'app-counter',
   templateUrl: './counter.component.html',
@@ -16,12 +15,16 @@ interface Observer {
 export class CounterComponent implements OnInit {
 
   public count: number = 0;
-  private incrementButton: HTMLButtonElement = document.querySelector('incrementBtn');
-  private decrementButton: HTMLButtonElement = document.querySelector('decrementBtn');
+  private incrementButton: HTMLButtonElement;
+  private decrementButton: HTMLButtonElement;
 
   constructor() { }
 
   ngOnInit() {
+    this.incrementButton = document.querySelector('#incrementBtn');
+    this.decrementButton = document.querySelector('#decrementBtn');
+    this.incrementCounter();
+
   }
 
   // use the observer interface and the Observable class to create your own observer
@@ -33,7 +36,12 @@ export class CounterComponent implements OnInit {
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
   incrementCounter() {
     //const observable = new Observable(observer => {...})
-    const observer: Observer = {};
+    const observer: Observer = {
+      next: (value) => this.count++
+    };
+    const observable = new Observable(subscriber => {
+      this.incrementButton.onclick = () => subscriber.next()
+    }).subscribe(observer)
 
     
   }
