@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy,  OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 
 interface Observer {
@@ -12,18 +12,23 @@ interface Observer {
   templateUrl: './counter.component.html',
   styleUrls: ['./counter.component.css']
 })
-export class CounterComponent implements OnInit {
+export class CounterComponent implements OnInit, OnDestroy {
 
   public count: number = 0;
   private incrementButton: HTMLButtonElement;
   private decrementButton: HTMLButtonElement;
+  private incrementButtonClickSubscription: Subscription;
 
   constructor() { }
+  
+  ngOnDestroy(): void {
+  this.incrementButtonClickSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.incrementButton = document.querySelector('#incrementBtn');
     this.decrementButton = document.querySelector('#decrementBtn');
-    this.observeIncrementButtonClick();
+    this.incrementButtonClickSubscription = this.observeIncrementButtonClick();
 
   }
 
@@ -34,15 +39,17 @@ export class CounterComponent implements OnInit {
   // use intellisense to check which method we could use on incrementButton
   // subscriber and observer are used interchangeable in the documentation
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
-  private observeIncrementButtonClick(): void {
+  private observeIncrementButtonClick(): Subscription {
     //const observable = new Observable(observer => {...})
     const observer: Observer = {
-      next: (value?: any) => this.count++
+      next: () => this.count++
     };
     const observable = new Observable(observer => {
       this.incrementButton.onclick = () => {};
       // is there anything we can call on the observer?
-    }).subscribe(observer)
+    });
+    const subscription = observable.subscribe(observer);
+    return subscription;
 
   }
 
