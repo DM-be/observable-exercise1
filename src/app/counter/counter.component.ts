@@ -23,7 +23,11 @@ export class CounterComponent implements OnInit {
   ngOnInit() {
     this.incrementButton = document.querySelector('#incrementBtn');
     this.decrementButton = document.querySelector('#decrementBtn');
-    this.observeIncrementButtonClick();
+  //  this.observeIncrementButtonClick();
+  //  this.observeDecrementButtonClick();
+    this.observeDecrementButtonClickWithoutGlobal();
+    this.observeIncrementButtonClickWithoutGlobal();
+    
 
   }
 
@@ -37,21 +41,62 @@ export class CounterComponent implements OnInit {
   private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
     const observer: Observer = {
-      next: (value) => this.count++
+      next: () => this.count++
     };
     const observable = new Observable(subscriber => {
-      // is there anything we can call on the subscriber?
-    }).subscribe(observer)
+      this.incrementButton.onclick = () => subscriber.next();
+    });
+    observable.subscribe(observer);
+
+
 
   }
 
   private observeDecrementButtonClick(): void {
+     const observer: Observer = {
+      next: () => this.count--
+    };
+    const observable = new Observable(subscriber => {
+      this.decrementButton.onclick = () => subscriber.next();
+    });
+    observable.subscribe(observer);
+
   }
 
 
   // extra challenge 
   //could you implement the same thing, without using a global variable?
+  // solution = replace ever
+  private observeIncrementButtonClickWithoutGlobal(): void {
+     const observer: Observer = {
+      next: () => {
+        const span: HTMLSpanElement = document.querySelector('span');
+        let value = parseInt(span.innerHTML);
+        value++;
+        span.innerHTML = value.toString();
+      }
+    };
+    const observable = new Observable(subscriber => {
+      this.incrementButton.onclick = () => subscriber.next();
+    });
+    observable.subscribe(observer);
 
+  }
   
+  private observeDecrementButtonClickWithoutGlobal(): void {
+     const observer: Observer = {
+      next: () => {
+        const span: HTMLSpanElement = document.querySelector('span');
+        let value = parseInt(span.innerHTML);
+        value--;
+        span.innerHTML = value.toString();
+      }
+    };
+    const observable = new Observable(subscriber => {
+      this.decrementButton.onclick = () => subscriber.next();
+    });
+    observable.subscribe(observer);
+
+  }
 
 }
