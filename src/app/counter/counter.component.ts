@@ -44,12 +44,11 @@ export class CounterComponent implements OnInit {
   }
 
 
-
+  // whenever we call observeIncrementButtonClick we register an observer
+  // we dont unregister it... meaning if we would recreate this component, we would have two subcriptions...
+  // unregister by saving the subscriptions in a global variable and unregistering them when the component gets destroyed.
 
   
-
-
-
 
   // extra challenge 
   //could you implement the same thing, without using a global variable?
