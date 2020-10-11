@@ -1,39 +1,35 @@
-import { Component, OnDestroy,  OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Observable, Subscription } from "rxjs";
 
 interface Observer {
-  next: (value?: any) => void,
-  error?: (error: any) => void
-  complete?: () => void
+  next: (value?: any) => void;
+  error?: (error: any) => void;
+  complete?: () => void;
 }
 @Component({
-  selector: 'app-counter',
-  templateUrl: './counter.component.html',
-  styleUrls: ['./counter.component.css']
+  selector: "app-counter",
+  templateUrl: "./counter.component.html",
+  styleUrls: ["./counter.component.css"]
 })
 export class CounterComponent implements OnInit, OnDestroy {
-
   public count: number = 0;
   private incrementButton: HTMLButtonElement;
   private decrementButton: HTMLButtonElement;
   private incrementButtonClickSubscription: Subscription;
   private decrementButtonClickSubscription: Subscription;
 
-  constructor() { }
+  constructor() {}
   ngOnDestroy(): void {
     this.incrementButtonClickSubscription.unsubscribe();
   }
 
   ngOnInit() {
-    this.incrementButton = document.querySelector('#incrementBtn');
-    this.decrementButton = document.querySelector('#decrementBtn');
+    this.incrementButton = document.querySelector("#incrementBtn");
+    this.decrementButton = document.querySelector("#decrementBtn");
     this.incrementButtonClickSubscription = this.observeIncrementButtonClick();
     this.decrementButtonClickSubscription = this.observeDecrementButtonClick();
     //this.observeDecrementButtonClickWithoutGlobal();
     //this.observeIncrementButtonClickWithoutGlobal();
-    
-
   }
 
   // use the observer interface and the Observable class to create your own observer
@@ -53,12 +49,10 @@ export class CounterComponent implements OnInit, OnDestroy {
     });
     const subscription = observable.subscribe(observer);
     return subscription;
-
-
   }
 
   private observeDecrementButtonClick(): Subscription {
-     const observer: Observer = {
+    const observer: Observer = {
       next: () => this.count--
     };
     const observable = new Observable(subscriber => {
@@ -66,17 +60,15 @@ export class CounterComponent implements OnInit, OnDestroy {
     });
     const subscription = observable.subscribe(observer);
     return subscription;
-
   }
 
-
-  // extra challenge 
+  // extra challenge
   //could you implement the same thing, without using a global variable?
   // solution = replace ever
   private observeIncrementButtonClickWithoutGlobal(): void {
-     const observer: Observer = {
+    const observer: Observer = {
       next: () => {
-        const span: HTMLSpanElement = document.querySelector('span');
+        const span: HTMLSpanElement = document.querySelector("span");
         let value = parseInt(span.innerHTML);
         value++;
         span.innerHTML = value.toString();
@@ -86,13 +78,12 @@ export class CounterComponent implements OnInit, OnDestroy {
       this.incrementButton.onclick = () => subscriber.next();
     });
     observable.subscribe(observer);
-
   }
-  
+
   private observeDecrementButtonClickWithoutGlobal(): void {
-     const observer: Observer = {
+    const observer: Observer = {
       next: () => {
-        const span: HTMLSpanElement = document.querySelector('span');
+        const span: HTMLSpanElement = document.querySelector("span");
         let value = parseInt(span.innerHTML);
         value--;
         span.innerHTML = value.toString();
@@ -102,7 +93,5 @@ export class CounterComponent implements OnInit, OnDestroy {
       this.decrementButton.onclick = () => subscriber.next();
     });
     observable.subscribe(observer);
-
   }
-
 }
