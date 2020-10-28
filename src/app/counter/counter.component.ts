@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
 
 interface Observer {
-  next?: (value?: any) => void,
-  error?: (error: any) => void
-  complete?: () => void
+  next: (value?: any) => void;
+  error?: (error: any) => void;
+  complete?: () => void;
 }
 @Component({
-  selector: 'app-counter',
-  templateUrl: './counter.component.html',
-  styleUrls: ['./counter.component.css']
+  selector: "app-counter",
+  templateUrl: "./counter.component.html",
+  styleUrls: ["./counter.component.css"]
 })
 export class CounterComponent implements OnInit {
-
   public count: number = 0;
   private incrementButton: HTMLButtonElement;
   private decrementButton: HTMLButtonElement;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.incrementButton = document.querySelector('#incrementBtn');
-    this.decrementButton = document.querySelector('#decrementBtn');
+    this.incrementButton = document.querySelector("#incrementBtn");
+    this.decrementButton = document.querySelector("#decrementBtn");
     this.observeIncrementButtonClick();
-
   }
 
   // use the observer interface and the Observable class to create your own observer
@@ -36,23 +33,23 @@ export class CounterComponent implements OnInit {
   // https://rxjs-dev.firebaseapp.com/api/index/class/Observable
   private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
-  //  const observer: Observer = {};
-
+    //  const observer: Observer = {};
+    const observer: Observer = {
+      next: () => this.count++
+    };
+    const observable = new Observable(observer => {
+      this.incrementButton.onclick = () => {
+        this.count++;
+      };
+    }).subscribe(observer);
   }
 
-  private observeDecrementButtonClick(): void {
-  }
-
+  private observeDecrementButtonClick(): void {}
 
   // whenever we call observeIncrementButtonClick we register an observer
   // we dont unregister it... meaning if we would recreate this component, we would have two subcriptions...
   // unregister by saving the subscriptions in a global variable and unregistering them when the component gets destroyed.
 
-  
-
-  // extra challenge 
+  // extra challenge
   //could you implement the same thing, without using a global variable?
-
-  
-
 }
