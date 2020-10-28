@@ -34,14 +34,7 @@ export class CounterComponent implements OnInit {
   private observeIncrementButtonClick(): void {
     //const observable = new Observable(observer => {...})
     //  const observer: Observer = {};
-    const observer: Observer = {
-      next: () => this.count++
-    };
-    const observable = new Observable(observer => {
-      this.incrementButton.onclick = () => {
-        this.count++;
-      };
-    }).subscribe(observer);
+    
   }
 
   private observeDecrementButtonClick(): void {}
